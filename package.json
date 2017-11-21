@@ -7,12 +7,12 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "bcrypt": "^1.0.2",
-    "fibers": "^1.0.15",
-    "meteor-node-stubs": "~0.2.0",
+    "fibers": "^2.0.0",
+    "meteor-node-stubs": "~0.3.2",
     "vue": "^2.2.6",
     "vue-meteor-tracker": "^1.2.1",
-    "vue-router": "^2.5.1",
-    "vuex": "^2.3.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {}
 }
