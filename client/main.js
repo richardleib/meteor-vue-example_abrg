@@ -5,17 +5,20 @@ import VueRouter from 'vue-router'
 import routes from '/imports/routes'
 import store from '/imports/vuex/store'
 import VueMeteorTracker from 'vue-meteor-tracker'
-import AppLayout from '/imports/ui/AppLayout.vue'
+import app_layout from '/imports/ui/app_layout.vue'
 
-Vue.use(VueMeteorTracker);
-Vue.use(VueRouter);
+Vue.use(VueMeteorTracker)
+
+Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes,
   mode: 'history',
   scrollBehavior: function (to, from, savedPosition){
     //your scroll behavior
-  }
+  },
+  // linkActiveClass: 'active-parent'
+  linkExactActiveClass: 'active'
 });
 
 // App start
@@ -24,6 +27,6 @@ Meteor.startup(() => {
     store,
     router,
     el: '#app',
-    render: h => h(AppLayout)
+    render: h => h(app_layout)
   })
 });

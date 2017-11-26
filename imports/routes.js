@@ -1,16 +1,16 @@
 // Import components
-import Home from '/imports/ui/Home.vue'
-import Another from '/imports/ui/Another.vue'
+import register from '/imports/ui/register.vue'
+import another from '/imports/ui/another.vue'
 
 export default [
   {
-    path: '/',
-    name: 'home',
-    component: Home
+    path: '/register',
+    name: 'register',
+    component: register
   },
   {
     path: '/another',
     name: 'another',
-    component: Another
+    component: another
   }
 ];
