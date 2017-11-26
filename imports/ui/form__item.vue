@@ -5,7 +5,7 @@
 
       <label v-if="!is_checkbox_or_radio"
              :for="item.name">
-        {{item.label}} <template v-if="is_required">*</template>
+        {{item.label}} <small v-if="is_required">(required)</small>
       </label>
 
       <component :is="object_value(item, 'form.element', 'input')"
