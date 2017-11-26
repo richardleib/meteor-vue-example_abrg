@@ -122,13 +122,6 @@
       submit_form(event) {
         this.validate_form()
         this.show_form_validation_error__all()
-
-        // Serialize form data
-        const form_entries = new FormData( event.target ).entries()
-        let data = Object.assign( ...Array.from(form_entries, ([x,y]) => ( {[x]:y}) ) )
-        //data = JSON.stringify(data)
-
-        console.log('submit_form - Serialize form data:', data)
         console.log('submit_form - form_data:', this.form_data)
       }
     }
