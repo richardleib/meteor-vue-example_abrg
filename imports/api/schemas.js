@@ -12,14 +12,19 @@ let sponsor = {
   }
 }
 
+let finPassword = {
+  ...options.for_password,
+  label: 'Financial password'
+}
+
 export const schema__user_create = new SimpleSchema({
   sponsor,
   username: options.for_name,
+  password: options.for_password,
   email: options.for_email,
   firstName: options.for_name,
   secondName: options.for_name,
-  password: options.for_password,
-  finPassword: options.for_password,
+  finPassword,
   country: options.for_country,
   phone: {
     type: String,
