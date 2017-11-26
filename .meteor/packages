@@ -11,6 +11,7 @@ meteor
 webapp
 hot-code-push
 dynamic-import
+http
 #shell-server           # Server-side component of the `meteor shell` command
 
 # DDP
@@ -65,11 +66,13 @@ session
 #u2622:persistent-session
 
 # UI
-standard-minifier-css   # CSS minifier run for production mode
+#standard-minifier-css   # CSS minifier run for production mode
+seba:minifiers-autoprefixer
 standard-minifier-js    # JS minifier run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 mobile-experience       # Packages for a great mobile UX
 stylus
+fourseven:scss
 #jquery
 #twbs:bootstrap
 
