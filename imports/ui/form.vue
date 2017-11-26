@@ -44,7 +44,7 @@
 
       // Set initial values
       Object.entries( this.schema_items ).map(([key, value]) => {
-        this.form_data[key] = object_value(value, 'form.value', '')
+        this.form_data[key] = object_value(value, 'form.value', null)
       })
     },
     mounted() {

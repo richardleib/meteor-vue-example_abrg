@@ -37,7 +37,8 @@
       </component>
 
       <!--<small class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-      <div v-if="!is_valid" class="invalid-feedback">Validate: {{}}</div>
+      <div v-if="!is_valid && validation_error_message"
+           class="invalid-feedback">{{validation_error_message}}</div>
 
       <template v-if="is_checkbox_or_radio">
         {{item.label}}
@@ -58,6 +59,23 @@
       },
       is_valid() {
         return typeof this.validation_error === "undefined"
+      },
+      validation_error_message() {
+        let validation_error = this.validation_error
+        console.log('validation_error:', validation_error)
+
+        let message
+
+        switch (validation_error.type) {
+          case 'required':
+            message = "Required field"
+            break
+          default:
+            message = object_value(this, 'item.form.validation_message', 'Field is not valid')
+            break
+        }
+
+        return message
       },
       is_checkbox_or_radio() {
         let type = object_value(this, 'item.form.type')
