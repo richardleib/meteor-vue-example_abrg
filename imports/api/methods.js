@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http'
 import { schema__user_create } from '/imports/api/schemas'
 import object_value from '/imports/api/helpers/object_value'
+import { encrypt } from '/imports/api/helpers/encrypt'
 
 Meteor.methods({
   async method__user_create(data) {
@@ -22,7 +23,7 @@ Meteor.methods({
         return false
       }
 
-      return token
+      return encrypt(token)
 
     } catch (error) {
 
