@@ -1,2 +1,1 @@
-import '/imports/api/methods'
-// import '/imports/api/publications'
+import '/imports/startup/server/index'
