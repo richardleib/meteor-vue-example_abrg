@@ -6,6 +6,14 @@
           novalidate>
 
       <fieldset :disabled="action_running">
+        <hr>
+
+        <button class="btn btn-primary btn-sm"
+                type="button"
+                @click="generate_demo_values()">Insert demo values
+        </button>
+
+        <hr>
 
         <form__item v-for="(item, index) of schema_items_array"
                     :key="index"
@@ -40,6 +48,7 @@
 
 <script>
   import { Meteor } from 'meteor/meteor'
+  import Random from 'random-js'
   import object_value from '/imports/api/helpers/object_value'
   import form__item from './form__item.vue'
 
@@ -88,6 +97,23 @@
     methods: {
       object_value() {
         return object_value(...arguments)
+      },
+      generate_demo_values() {
+        let un = Random.hex()( Random.engines.nativeMath, 8 )
+
+        this.form_data = {
+          "sponsor": "testareg1",
+          "username": un,
+          "email": "id0+" + un + "@posteo.net",
+          "firstName": "Mickey",
+          "secondName": "Mouse",
+          "password": "pass_" + un,
+          "finPassword": "finPass_" + un,
+          "country": "ru",
+          "phone": "78120001122"
+        }
+
+        this.validate_form()
       },
       validate_form() {
         let validationContext = this.schema.newContext()

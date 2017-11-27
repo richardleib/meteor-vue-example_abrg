@@ -12,6 +12,7 @@
     "jquery": "^3.2.1",
     "meteor-node-stubs": "~0.3.2",
     "popper.js": "^1.12.9",
+    "random-js": "^1.0.8",
     "simpl-schema": "^1.0.0",
     "vue": "^2.2.6",
     "vue-meteor-tracker": "^1.2.1",
