@@ -34,6 +34,9 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 #reywood:publish-composite
 #meteorhacks:subs-manager
 
+# Methods
+deanius:promise
+
 # Collections and schemas
 # TODO: Switch to NPM versions
 #aldeed:collection2-core

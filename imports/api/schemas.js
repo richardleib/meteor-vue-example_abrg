@@ -1,5 +1,6 @@
 import SimpleSchema from 'simpl-schema'
 import { Tracker } from 'meteor/tracker'
+import { check } from 'meteor/check'
 import * as options from '/imports/api/schema_defualts'
 
 SimpleSchema.extendOptions(['form'])
@@ -35,6 +36,7 @@ export const schema__user_create = new SimpleSchema({
     optional: true
   }
 }, {
+  check,
   tracker: Tracker
 })
 
@@ -71,6 +73,7 @@ export const schema__user_update = new SimpleSchema({
   deliveryEMail: options.for_numeric_boolean,
   deliverySMS: options.for_numeric_boolean
 }, {
+  check,
   tracker: Tracker,
   requiredByDefault: false
 })
@@ -81,5 +84,6 @@ export const schema__user_resetPassword = new SimpleSchema({
   newPassword: options.for_password,
   type: options.for_numeric_boolean
 }, {
+  check,
   tracker: Tracker
 })

@@ -62,7 +62,7 @@
       },
       validation_error_message() {
         let validation_error = this.validation_error
-        console.log('validation_error:', validation_error)
+        //console.log('validation_error:', validation_error)
 
         let message
 
