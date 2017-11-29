@@ -65,7 +65,7 @@ server-render
 # Sessions
 #reactive-var            # Reactive variable for tracker
 #reactive-dict
-session
+#session
 #u2622:persistent-session
 
 # UI
