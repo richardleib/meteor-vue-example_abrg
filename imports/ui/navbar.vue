@@ -27,7 +27,7 @@
           </template>
 
           <router-link class="dropdown-item"
-                       :to="{ name:'update' }">Profile</router-link>
+                       :to="{ name:'profile' }">Profile</router-link>
 
           <b-dropdown-item href="#"
                            @click.prevent="sing_out">Sign out</b-dropdown-item>
