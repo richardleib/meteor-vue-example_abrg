@@ -27,7 +27,7 @@
                   @input="value => process_input(value, item.name)"/>
 
       <b-alert variant="danger"
-               :show="action_error">
+               :show="!!action_error">
         <strong>Not submitted</strong><br>
         <small v-html="action_error"></small>
       </b-alert>
