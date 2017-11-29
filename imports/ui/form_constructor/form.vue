@@ -59,7 +59,7 @@
     components: {
       form__item
     },
-    props: ['schema', 'form_title'],
+    props: ['schema', 'form_name', 'form_title'],
     data() {
       return {
         route_name: null,
@@ -171,37 +171,40 @@
 
         const data = this.form_data
 
-        // Create user
-        Meteor.callPromise('method__user_create', data)
-          .then(result => {
-            //console.log('method__user_create - token:', result)
+        // Register
+        if (this.form_name === 'register') {
+          Meteor.callPromise('method__user_create', data)
+            .then(result => {
+              //console.log('method__user_create - token:', result)
 
-            // Save user token
-            this.$store.commit('set_user_token', result)
+              // Save user token
+              this.$store.commit('set_user_token', result)
+              this.$router.push({name: 'profile'})
 
-            return result
-          })
-          .catch(error => {
-            //console.log('method__user_create - error:', error)
+              return result
+            })
+            .catch(error => {
+              //console.log('method__user_create - error:', error)
 
-            // Set error message
-            let message = object_value(error, 'error', 'Error')
-            switch (message) {
-              case 'missed-parameters':
-                message = 'Parameters missed'
-                break
-              case 'registered-email-or-username':
-                message = `Email "${data.email}" or&nbsp;username "${data.username}" is already registered`
-                break
-            }
-            this.action_error = message
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              switch (message) {
+                case 'missed-parameters':
+                  message = 'Parameters missed'
+                  break
+                case 'registered-email-or-username':
+                  message = `Email "${data.email}" or&nbsp;username "${data.username}" is already registered`
+                  break
+              }
+              this.action_error = message
 
-            return error
-          })
-          .then(result => {
-            // Finish
-            this.action_running = false
-          })
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
 
       }
     }
