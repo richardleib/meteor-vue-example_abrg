@@ -2,14 +2,15 @@
 import { Meteor } from 'meteor/meteor'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import routes from '/imports/routes'
-import store from '/imports/vuex/store'
+import BootstrapVue from 'bootstrap-vue'
+import routes from '/imports/startup/client/routes'
+import store from '/imports/startup/client/vuex'
 import VueMeteorTracker from 'vue-meteor-tracker'
 import app_layout from '/imports/ui/app_layout.vue'
 
 Vue.use(VueMeteorTracker)
-
 Vue.use(VueRouter)
+Vue.use(BootstrapVue)
 
 const router = new VueRouter({
   routes,

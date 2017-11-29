@@ -1,49 +1,52 @@
 <template>
-  <div class="row justify-content-md-center">
-    <form class="home col-12 col-md-6 col-md-4"
-          @input="validate_form"
-          @submit.prevent="submit_form"
-          novalidate>
+  <form class="b-form"
+        @input="validate_form"
+        @submit.prevent="submit_form"
+        novalidate>
 
-      <fieldset :disabled="action_running">
-        <hr>
+    <template v-if="form_title">
+      <h2>{{form_title}}</h2>
+      <hr>
+    </template>
 
+    <fieldset :disabled="action_running">
+      <template v-if="route_name === 'register'">
         <button class="btn btn-primary btn-sm"
                 type="button"
                 @click="generate_demo_values()">Insert demo values
         </button>
 
         <hr>
+      </template>
 
-        <form__item v-for="(item, index) of schema_items_array"
-                    :key="index"
-                    :item="item"
-                    :validation_error="validation_error(item.name)"
-                    :value="form_data[item.name]"
-                    @input="value => process_input(value, item.name)"/>
+      <form__item v-for="(item, index) of schema_items_array"
+                  :key="index"
+                  :item="item"
+                  :validation_error="validation_error(item.name)"
+                  :value="form_data[item.name]"
+                  @input="value => process_input(value, item.name)"/>
 
-        <footer class="b-form-footer d-flex align-items-baseline">
+      <b-alert variant="danger"
+               :show="action_error">
+        <strong>Not submitted</strong><br>
+        <small v-html="action_error"></small>
+      </b-alert>
 
-          <button class="col-auto btn btn-primary"
-                  :disabled="!allow_submit">Submit</button>
+      <footer class="b-form-footer d-flex align-items-baseline">
 
-          <div class="col"
-               v-if="!allow_submit && !action_running && !action_error">Fill the form, please.</div>
+        <button class="col-auto btn btn-primary"
+                :disabled="!allow_submit">Submit</button>
 
-          <div class="col"
-               v-if="action_running">Submitting...</div>
+        <div class="col"
+             v-if="!allow_submit && !action_running && !action_error">Fill the form, please.</div>
 
-          <div class="col"
-               v-if="action_error">
-            Not submitted:
-            <span v-html="action_error"></span>
-          </div>
-        </footer>
+        <div class="col"
+             v-if="action_running">Submitting...</div>
+      </footer>
 
-      </fieldset>
+    </fieldset>
 
-    </form>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -53,9 +56,13 @@
   import form__item from './form__item.vue'
 
   export default {
-    props: ['schema'],
+    components: {
+      form__item
+    },
+    props: ['schema', 'form_title'],
     data() {
       return {
+        route_name: null,
         form_data: {},
         form_is_valid: true,
         form_validation_errors: [],
@@ -73,10 +80,10 @@
       })
     },
     mounted() {
+      let route = this.$router.currentRoute
+      this.route_name = route.name
+
       this.validate_form()
-    },
-    components: {
-      form__item
     },
     watch: {
       form_data(value, old_value) {
@@ -84,6 +91,10 @@
       }
     },
     computed: {
+      user_token() {
+        console.log('user_token:', this.$store.state.user_token)
+        return this.$store.state.user_token
+      },
       schema_items() {
         return this.$store.getters.schema_items( this.schema )
       },
@@ -166,7 +177,7 @@
             //console.log('method__user_create - token:', result)
 
             // Save user token
-            localStorage['user_token'] = result
+            this.$store.commit('set_user_token', result)
 
             return result
           })

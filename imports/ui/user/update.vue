@@ -3,8 +3,8 @@
 </template>
 
 <script>
-  import form_constructor from '/imports/ui/form.vue'
-  import { schema__user_create } from '/imports/api/schemas'
+  import form_constructor from '/imports/ui/form_constructor/form.vue'
+  import { schema__user_update } from '/imports/api/schemas'
 
   export default {
     components: {
@@ -12,7 +12,7 @@
     },
     computed: {
       schema() {
-        return schema__user_create
+        return schema__user_update
       }
     }
   }

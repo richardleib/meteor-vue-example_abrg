@@ -1,15 +1,23 @@
-import { Meteor } from 'meteor/meteor'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-const someModule = {
+Vue.use(Vuex)
+
+export default new Vuex.Store({
   state: {
-
+    user_token: localStorage.getItem('user_token')
   },
   mutations: {
-
+    set_user_token(state, param) {
+      state.user_token = param
+      localStorage.setItem('user_token', state.user_token)
+    },
+    remove_user_token(state) {
+      state.user_token = '' // localStorage stores strings
+      localStorage.setItem('user_token', state.user_token)
+    }
   },
-  actions: {
-
-  },
+  // actions: {},
   getters: {
     schema_items: state => schema => {
       return schema._schema
@@ -27,8 +35,6 @@ const someModule = {
       })
 
       return schema_items
-    },
+    }
   }
-}
-
-export default someModule
+})
