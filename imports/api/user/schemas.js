@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema'
 import { Tracker } from 'meteor/tracker'
 import { check } from 'meteor/check'
-import * as options from '/imports/api/schema_defualts'
+import * as options from '/imports/api/helpers/schema_defualts'
 
 SimpleSchema.extendOptions(['form'])
 

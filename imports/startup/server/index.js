@@ -1,3 +1,2 @@
-import '/imports/api/methods'
-// import '/imports/api/publications'
+import '/imports/api/user/server/methods'
 import './process_env_MAIL'

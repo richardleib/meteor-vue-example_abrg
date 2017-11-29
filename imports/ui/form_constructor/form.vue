@@ -206,6 +206,27 @@
             })
         }
 
+        // Sign in
+        if (this.form_name === 'sign_in') {
+          Meteor.callPromise('method__user_sign_in', data)
+            .then(result => {
+              // Save user token
+              this.$store.commit('set_user_token', result)
+              this.$router.push({name: 'profile'})
+
+              return result
+            })
+            .catch(error => {
+              console.log('method__user_sign_in - error:', error)
+
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
+
       }
     }
   }
