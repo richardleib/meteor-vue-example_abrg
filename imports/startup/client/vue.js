@@ -6,13 +6,13 @@ import BootstrapVue from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import routes from '/imports/startup/client/routes'
 import store from '/imports/startup/client/vuex'
-import VueMeteorTracker from 'vue-meteor-tracker'
+// import VueMeteorTracker from 'vue-meteor-tracker'
 import app_layout from '/imports/ui/app_layout.vue'
 
-Vue.use(VueMeteorTracker)
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(Notifications)
+// Vue.use(VueMeteorTracker)
 
 const router = new VueRouter({
   routes,
