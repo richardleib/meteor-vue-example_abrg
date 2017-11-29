@@ -35,7 +35,8 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 #meteorhacks:subs-manager
 
 # Methods
-deanius:promise
+grove:call-async
+#deanius:promise
 
 # Collections and schemas
 # TODO: Switch to NPM versions
@@ -60,7 +61,7 @@ server-render
 #meteorhacks:ssr        # Blaze templates SSR
 
 # Email
-#email
+email
 
 # Sessions
 #reactive-var            # Reactive variable for tracker
