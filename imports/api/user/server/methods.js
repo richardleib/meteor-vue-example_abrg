@@ -23,6 +23,16 @@ Meteor.methods({
         return false
       }
 
+      // Send email
+      Meteor.callAsync('method__email_send', {
+        to: data.firstName + ' ' + data.secondName + ' <' + data.email + '>',
+        subject: 'Registration confirmed',
+        html: `
+          <p>Dear ${data.firstName},<br><br> you registered as <strong>${data.username}</strong>.</p>
+          <p><a href="${Meteor.absoluteUrl()}">[Demo application]</a></p>
+          `
+      }).catch(error => console.log('method__user_create - method__email_send - error:', error))
+
       return encrypt(token)
 
     } catch (error) {
