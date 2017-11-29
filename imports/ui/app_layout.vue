@@ -2,6 +2,8 @@
   <div class="b-layout">
     <navbar/>
     <router-view/>
+    <notifications group="notifications"
+                   position="top center" />
   </div>
 </template>
 

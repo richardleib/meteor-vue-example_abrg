@@ -55,7 +55,18 @@
     },
     methods: {
       sing_out() {
+        // Remove user token
         this.$store.commit('remove_user_token')
+
+        // Show notification
+        this.$notify({
+          group: 'notifications',
+          title: 'Good bye!',
+          text: 'You have been signed out'
+        })
+
+        // Proceed to home page
+        this.$router.push({name: 'home'}, () => window.scrollTo(0,0))
       }
     }
   }

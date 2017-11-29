@@ -179,7 +179,16 @@
 
               // Save user token
               this.$store.commit('set_user_token', result)
-              this.$router.push({name: 'profile'})
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'You have been registered'
+              })
+
+              // Proceed to profile
+              this.$router.push({name: 'profile'}, () => window.scrollTo(0,0))
 
               return result
             })
@@ -197,6 +206,13 @@
                   break
               }
               this.action_error = message
+              
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not submitted',
+                text: message
+              })
 
               return error
             })
@@ -212,6 +228,8 @@
             .then(result => {
               // Save user token
               this.$store.commit('set_user_token', result)
+
+              // Proceed to profile
               this.$router.push({name: 'profile'})
 
               return result
