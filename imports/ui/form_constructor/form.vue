@@ -173,7 +173,7 @@
 
         // Register
         if (this.form_name === 'register') {
-          Meteor.callPromise('method__user_create', data)
+          Meteor.callAsync('method__user_create', data)
             .then(result => {
               //console.log('method__user_create - token:', result)
 
@@ -208,7 +208,7 @@
 
         // Sign in
         if (this.form_name === 'sign_in') {
-          Meteor.callPromise('method__user_sign_in', data)
+          Meteor.callAsync('method__user_sign_in', data)
             .then(result => {
               // Save user token
               this.$store.commit('set_user_token', result)
