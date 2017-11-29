@@ -40,6 +40,24 @@ export const schema__user_create = new SimpleSchema({
   tracker: Tracker
 })
 
+export const schema__user_login = new SimpleSchema({
+  username: options.for_name,
+  password: options.for_password
+}, {
+  check,
+  tracker: Tracker
+})
+
+export const schema__user_resetPassword = new SimpleSchema({
+  token: String,
+  oldPassword: options.for_password,
+  newPassword: options.for_password,
+  type: options.for_numeric_boolean
+}, {
+  check,
+  tracker: Tracker
+})
+
 export const schema__user_update = new SimpleSchema({
   sponsor,
   username: options.for_name,
@@ -66,7 +84,10 @@ export const schema__user_update = new SimpleSchema({
   vk: options.for_string,
   fb: options.for_string,
   youtube: options.for_string,
-  autoExtensionBS: options.for_numeric_boolean,
+  autoExtensionBS: {
+    ...options.for_numeric_boolean,
+    label: 'BS auto extension'
+  },
   showMobile: options.for_numeric_boolean,
   showEmail: options.for_numeric_boolean,
   showName: options.for_numeric_boolean,
@@ -76,14 +97,4 @@ export const schema__user_update = new SimpleSchema({
   check,
   tracker: Tracker,
   requiredByDefault: false
-})
-
-export const schema__user_resetPassword = new SimpleSchema({
-  token: String,
-  oldPassword: options.for_password,
-  newPassword: options.for_password,
-  type: options.for_numeric_boolean
-}, {
-  check,
-  tracker: Tracker
 })
