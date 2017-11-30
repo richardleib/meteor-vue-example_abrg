@@ -55,18 +55,6 @@ export default new Vuex.Store({
           // Save user profile
           console.log('method__user_load - result:', result)
 
-          // Flatten object keys objects
-          let keys = ['links', 'settings']
-          for (let key of keys) {
-            if ( result[key] === Object(result[key]) ) {
-              result = {...result, ...result[key]}
-
-              delete result[key]
-            }
-          }
-
-          console.log('method__user_load - result2:', result)
-
           commit('set_user', result)
 
           return result

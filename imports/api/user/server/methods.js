@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http'
-import { schema__user_create, schema__user_login } from '/imports/api/user/schemas'
+import { schema__user_create, schema__user_login, schema__user_update } from '/imports/api/user/schemas'
 import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
 import SimpleSchema from "simpl-schema"
@@ -111,13 +111,39 @@ Meteor.methods({
 
     try {
       const result = HTTP.get(url, { params: {token} })
-      console.log('method__user_load - result:', result)
+      // console.log('method__user_load - result:', result)
 
-      if (!result.data) {
+      let data = result.data
+
+      if (!data) {
         return false
       }
 
-      return result.data
+      // Flatten object keys objects
+      let keys = ['links', 'settings']
+      for (let key of keys) {
+        if ( data[key] === Object(data[key]) ) {
+          data = {...data, ...data[key]}
+
+          delete data[key]
+        }
+      }
+
+      // Include only items from the schema
+      let filter_array = Object.keys(schema__user_update._schema)
+      let filtered_data = {}
+      Object.entries(data).forEach(([key, value]) => {
+        if ( filter_array.includes(key)
+          && value !== "" ) {
+          filtered_data[key] = value
+        }
+      })
+
+      // Get sponsor username
+      filtered_data.sponsor = object_value(filtered_data, 'sponsor.username') || object_value(filtered_data, 'sponsor._id')
+
+      console.log('method__user_load - filtered_data:', filtered_data)
+      return filtered_data
 
     } catch (error) {
 

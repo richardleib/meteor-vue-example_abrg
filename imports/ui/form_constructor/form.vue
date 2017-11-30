@@ -85,11 +85,6 @@
         console.log('form_loaded_data:', form_loaded_data)
 
         Object.entries( form_loaded_data ).forEach(([key, value]) => {
-          if ( key === 'sponsor' ) {
-            value = object_value(value, 'username') || object_value(value, '_id')
-            console.log('sponsor:', value)
-          }
-
           this.form_data[key] = value
         })
       }
