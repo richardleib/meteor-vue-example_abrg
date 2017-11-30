@@ -34,6 +34,11 @@ function format_loaded_user_data(data) {
       }
     })
 
+  // Format date
+  if (filtered_data.birthday) {
+    filtered_data.birthday = filtered_data.birthday.split('T')[0]
+  }
+
   console.log('method__user_load - filtered_data:', filtered_data)
   return filtered_data
 }
