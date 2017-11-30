@@ -1,5 +1,5 @@
 {
-  "name": "meteor-vue-vuex",
+  "name": "abrg-test",
   "private": true,
   "scripts": {
     "start": "meteor run"
