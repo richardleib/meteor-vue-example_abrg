@@ -67,6 +67,13 @@ export const for_country = {
   }
 }
 
+export const for_date = {
+  type: Date,
+  form: {
+    type: 'date'
+  }
+}
+
 // export const select_example = {
 //   ...for_name,
 //   form: {

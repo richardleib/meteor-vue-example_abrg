@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http'
 import { schema__user_create, schema__user_login } from '/imports/api/user/schemas'
 import object_value from '/imports/api/helpers/object_value'
-import { encrypt } from '/imports/api/helpers/encrypt'
+import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
+import SimpleSchema from "simpl-schema"
 
 Meteor.methods({
   async method__user_create(data) {
@@ -28,7 +29,7 @@ Meteor.methods({
         to: data.firstName + ' ' + data.secondName + ' <' + data.email + '>',
         subject: 'Registration confirmed',
         html: `
-          <p>Dear ${data.firstName},<br><br> you registered as <strong>${data.username}</strong>.</p>
+          <p>Dear ${data.firstName}!<br> You registered as <strong>${data.username}</strong>.</p>
           <p><a href="${Meteor.absoluteUrl()}">[Demo application]</a></p>
           `
       }).catch(error => console.log('method__user_create - method__email_send - error:', error))
@@ -70,6 +71,53 @@ Meteor.methods({
       }
 
       return encrypt(token)
+
+    } catch (error) {
+
+      // Got a network error, timeout, or HTTP error in the 400 or 500 range
+      console.log('method__user_sign_in - error:', error)
+
+      if ( error.response.statusCode === 400 ) {
+        throw new Meteor.Error('wrong-parameters')
+      }
+
+      if ( error.response.statusCode === 401 ) {
+        throw new Meteor.Error('authorisation-refused')
+      }
+
+      if ( error.response.statusCode === 404 ) {
+        throw new Meteor.Error('user-not-found')
+      }
+
+      if ( error.response.statusCode === 500 ) {
+        throw new Meteor.Error('server-error')
+      }
+
+      return error
+    }
+  },
+  async method__user_load(user_token) {
+    new SimpleSchema({
+      user_token: {type: String}
+    }).validate({user_token})
+
+    let url = object_value(Meteor, 'settings.private.API.user_load')
+    if (!url) {
+      throw new Meteor.Error('no-request-url')
+    }
+
+    const token = decrypt(user_token)
+    console.log('method__user_load - token:', token)
+
+    try {
+      const result = HTTP.get(url, { params: {token} })
+      console.log('method__user_load - result:', result)
+
+      if (!result.data) {
+        return false
+      }
+
+      return result.data
 
     } catch (error) {
 

@@ -1,23 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { Meteor } from 'meteor/meteor'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user_token: localStorage.getItem('user_token')
+    user_token: localStorage.getItem('user_token'),
+    user: null,
   },
-  mutations: {
-    set_user_token(state, param) {
-      state.user_token = param
-      localStorage.setItem('user_token', state.user_token)
-    },
-    remove_user_token(state) {
-      state.user_token = '' // localStorage stores strings
-      localStorage.setItem('user_token', state.user_token)
-    }
-  },
-  // actions: {},
   getters: {
     schema_items: state => schema => {
       return schema._schema
@@ -35,6 +26,59 @@ export default new Vuex.Store({
       })
 
       return schema_items
+    }
+  },
+  mutations: {
+    set_user_token(state, param) {
+      state.user_token = param
+      localStorage.setItem('user_token', state.user_token)
+    },
+    remove_user_token(state) {
+      state.user_token = '' // localStorage stores strings
+      localStorage.setItem('user_token', state.user_token)
+    },
+    set_user(state, param) {
+      state.user = param
+    }
+  },
+  actions: {
+    load_user({ commit, state }) {
+      let user_token = state.user_token
+      console.log('load_user - user_token:', user_token)
+
+      if (!user_token) {
+        return false
+      }
+
+      Meteor.callAsync('method__user_load', user_token)
+        .then(result => {
+          // Save user profile
+          console.log('method__user_load - result:', result)
+
+          // Flatten object keys objects
+          let keys = ['links', 'settings']
+          for (let key of keys) {
+            if ( result[key] === Object(result[key]) ) {
+              result = {...result, ...result[key]}
+
+              delete result[key]
+            }
+          }
+
+          console.log('method__user_load - result2:', result)
+
+          commit('set_user', result)
+
+          return result
+        })
+        .catch(error => {
+          console.error('method__user_profile - error:', error)
+
+          return error
+        })
+        // .then(result => {
+        //   // Finish
+        // })
     }
   }
 })

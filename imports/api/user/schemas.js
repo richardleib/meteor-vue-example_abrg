@@ -64,10 +64,7 @@ export const schema__user_update = new SimpleSchema({
   email: options.for_email,
   firstName: options.for_name,
   secondName: options.for_name,
-  password: {
-    type: String
-  },
-  birthday: Date,
+  birthday: options.for_date,
   phoneNumber: options.for_phone,
   phoneNumber2: options.for_phone,
   skype: options.for_string,

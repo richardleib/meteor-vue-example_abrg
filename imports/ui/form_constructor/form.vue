@@ -59,7 +59,7 @@
     components: {
       form__item
     },
-    props: ['schema', 'form_name', 'form_title'],
+    props: ['schema', 'form_name', 'form_title', 'form_loaded_data'],
     data() {
       return {
         route_name: null,
@@ -75,9 +75,24 @@
       //console.log( this.schema_items )
 
       // Set initial values
-      Object.entries( this.schema_items ).map(([key, value]) => {
+      Object.entries( this.schema_items ).forEach(([key, value]) => {
         this.form_data[key] = object_value(value, 'form.value', null)
       })
+
+      // Set loaded values
+      let form_loaded_data = this.form_loaded_data
+      if (!!form_loaded_data) {
+        console.log('form_loaded_data:', form_loaded_data)
+
+        Object.entries( form_loaded_data ).forEach(([key, value]) => {
+          if ( key === 'sponsor' ) {
+            value = object_value(value, 'username') || object_value(value, '_id')
+            console.log('sponsor:', value)
+          }
+
+          this.form_data[key] = value
+        })
+      }
     },
     mounted() {
       let route = this.$router.currentRoute
