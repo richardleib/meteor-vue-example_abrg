@@ -38,7 +38,7 @@
                 :disabled="!allow_submit">Submit</button>
 
         <div class="col"
-             v-if="!allow_submit && !action_running && !action_error">Fill the form, please.</div>
+             v-if="!allow_submit">Fill the form, please.</div>
 
         <div class="col"
              v-if="action_running">Submitting...</div>
@@ -140,8 +140,12 @@
         let validationContext = this.schema.newContext()
         validationContext.validate( this.form_data )
 
+        // Set validation statuses
         this.form_is_valid = validationContext.isValid()
         this.form_validation_errors = validationContext.validationErrors()
+        console.log('form_validation_errors:', validationContext.validationErrors())
+
+        // Reset form submit action error
         this.action_error = false
       },
       validation_error(name) {
