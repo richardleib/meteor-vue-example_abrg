@@ -62,7 +62,7 @@
     methods: {
       sing_out() {
         // Remove user token
-        this.$store.commit('remove_user_token')
+        this.$store.dispatch('clean_user_data')
 
         // Show notification
         this.$notify({

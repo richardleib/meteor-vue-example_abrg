@@ -10,6 +10,7 @@ export default new Vuex.Store({
     user: null,
   },
   getters: {
+    is_authorised: state => !!state.user_token,
     schema_items: state => schema => {
       return schema._schema
     },
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     set_user(state, param) {
       state.user = param
+    },
+    remove_user(state) {
+      state.user = null
     }
   },
   actions: {
@@ -67,6 +71,10 @@ export default new Vuex.Store({
         // .then(result => {
         //   // Finish
         // })
+    },
+    clean_user_data({ commit, state }) {
+      commit('remove_user_token')
+      commit('remove_user')
     }
   }
 })
