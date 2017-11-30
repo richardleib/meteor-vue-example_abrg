@@ -5,7 +5,7 @@ import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
 import SimpleSchema from "simpl-schema"
 
-function format_loaded_user_data(data) {
+function format_loaded_user_data(data, schema) {
   if (!data) {
     return false
   }
@@ -24,7 +24,7 @@ function format_loaded_user_data(data) {
   data.get__sponsor_username = object_value(data, 'sponsor.username') || object_value(data, 'sponsor._id')
 
   // Include only items from the schema
-  let filter_array = Object.keys(schema__user_update._schema)
+  let filter_array = Object.keys(schema._schema)
   let filtered_data = {}
   Object.entries(data)
     .forEach(([key, value]) => {
@@ -151,7 +151,7 @@ Meteor.methods({
       const result = HTTP.get(url, { params: {token} })
       // console.log('method__user_load - result:', result)
 
-      return format_loaded_user_data( result.data )
+      return format_loaded_user_data( result.data, schema__user_update )
 
     } catch (error) {
 
@@ -178,7 +178,8 @@ Meteor.methods({
     }
   },
   async method__user_update(data, user_token) {
-    schema__user_update.validate(data)
+    let schema = schema__user_update
+    schema.validate(data)
 
     new SimpleSchema({
       user_token: {type: String}
@@ -205,7 +206,7 @@ Meteor.methods({
       const result = HTTP.put(url, { data })
       // console.log('method__user_update - result:', result)
 
-      return format_loaded_user_data( result.data )
+      return format_loaded_user_data( result.data, schema )
 
     } catch (error) {
 
