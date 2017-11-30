@@ -37,7 +37,7 @@
 
       <b-alert variant="danger"
                :show="!!action_error">
-        <strong>Not submitted</strong><br>
+        <strong>Error</strong><br>
         <small v-html="action_error"></small>
       </b-alert>
 
@@ -272,6 +272,13 @@
               // Save user token
               this.$store.commit('set_user_token', result)
 
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'Your have been signed in'
+              })
+
               // Proceed to profile
               this.$router.push({name: 'profile'})
 
@@ -279,6 +286,17 @@
             })
             .catch(error => {
               console.log('method__user_sign_in - error:', error)
+
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              this.action_error = message
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not signed in',
+                text: message
+              })
 
               return error
             })
