@@ -154,7 +154,7 @@
         this.form_data = {
           "sponsor": "testareg1",
           "username": un,
-          "email": "id0+" + un + "@posteo.net",
+          "email": "abrg-test+" + un + "@emails.id0.it",
           "firstName": "Mickey",
           "secondName": "Mouse",
           "password": "pass_" + un,
