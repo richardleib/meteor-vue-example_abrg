@@ -29,6 +29,9 @@
           <router-link class="dropdown-item"
                        :to="{ name:'profile' }">Profile</router-link>
 
+          <router-link class="dropdown-item"
+                       :to="{ name:'update_password' }">Change password</router-link>
+
           <b-dropdown-item href="#"
                            @click.prevent="sing_out">Sign out</b-dropdown-item>
         </b-nav-item-dropdown>

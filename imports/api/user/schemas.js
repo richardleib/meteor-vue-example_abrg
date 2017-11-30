@@ -48,11 +48,27 @@ export const schema__user_login = new SimpleSchema({
   tracker: Tracker
 })
 
-export const schema__user_resetPassword = new SimpleSchema({
-  token: String,
+export const schema__password_update = new SimpleSchema({
+  // token: String,
+  type: {
+    type: String,
+    form: {
+      element: 'select',
+      options: [
+        {
+          selected: true,
+          label: 'User password',
+          value: '0'
+        },
+        {
+          label: 'Financial password',
+          value: '1'
+        }
+      ]
+    }
+  },
   oldPassword: options.for_password,
-  newPassword: options.for_password,
-  type: options.for_numeric_boolean
+  newPassword: options.for_password
 }, {
   check,
   tracker: Tracker

@@ -1,6 +1,11 @@
 import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http'
-import { schema__user_create, schema__user_login, schema__user_update } from '/imports/api/user/schemas'
+import {
+  schema__user_create,
+  schema__user_login,
+  schema__user_update,
+  schema__password_update
+} from '/imports/api/user/schemas'
 import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
 import SimpleSchema from "simpl-schema"
@@ -239,6 +244,67 @@ Meteor.methods({
 
       // Got a network error, timeout, or HTTP error in the 400 or 500 range
       console.log('method__user_sign_in - error:', error)
+
+      if ( error.response.statusCode === 400 ) {
+        throw new Meteor.Error('wrong-parameters')
+      }
+
+      if ( error.response.statusCode === 403 ) {
+        throw new Meteor.Error('authorisation-refused')
+      }
+
+      if ( error.response.statusCode === 404 ) {
+        throw new Meteor.Error('sponsor-not-found')
+      }
+
+      if ( error.response.statusCode === 409 ) {
+        throw new Meteor.Error('conflict')
+      }
+
+      if ( error.response.statusCode === 500 ) {
+        throw new Meteor.Error('server-error')
+      }
+
+      return error
+    }
+  },
+  /**
+   * Update password
+   * @param data
+   * @param user_token Stored on client encrypted token
+   * @returns {Promise<*>}
+   */
+  async method__user_password_update(data, user_token) {
+    let schema = schema__password_update
+    schema.validate(data)
+
+    new SimpleSchema({
+      user_token: {type: String}
+    }).validate({user_token})
+
+    let url = object_value(Meteor, 'settings.private.API.password_update')
+    if (!url) {
+      throw new Meteor.Error('no-request-url')
+    }
+
+    const token = decrypt(user_token)
+
+    // Make type Number
+    data.type = parseInt( data.type )
+
+    data = {token, ...data}
+    console.log('method__user_password_update - data:', { data })
+
+    try {
+      const result = HTTP.post(url, { data })
+      console.log('method__user_password_update - result:', result)
+
+      return result
+
+    } catch (error) {
+
+      // Got a network error, timeout, or HTTP error in the 400 or 500 range
+      console.log('method__user_password_update - error:', error)
 
       if ( error.response.statusCode === 400 ) {
         throw new Meteor.Error('wrong-parameters')

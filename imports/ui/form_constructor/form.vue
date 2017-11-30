@@ -328,6 +328,46 @@
             })
         }
 
+        // Update password
+        if (this.form_name === 'update_password') {
+          Meteor.callAsync('method__user_password_update', data, this.$store.state.user_token)
+            .then(result => {
+              console.log('method__user_password_update - result:' , result)
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'Your password has been updated'
+              })
+
+              // Finish form editing
+              this.form_disabled = true
+
+              return result
+            })
+            .catch(error => {
+              console.log('method__user_password_update - error:', error)
+
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              this.action_error = message
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not updated',
+                text: message
+              })
+
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
+
       },
       toggle_edit() {
         this.form_disabled = !this.form_disabled

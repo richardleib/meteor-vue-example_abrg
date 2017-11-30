@@ -5,6 +5,7 @@ import not_found from '/imports/ui/not_found.vue'
 register = () => import('/imports/ui/user/register.vue')
 sign_in = () => import('/imports/ui/user/sign_in.vue')
 profile = () => import('/imports/ui/user/profile.vue')
+update_password = () => import('/imports/ui/user/update_password.vue')
 another = () => import('/imports/ui/another.vue')
 
 export default [
@@ -27,6 +28,11 @@ export default [
     path: '/profile',
     name: 'profile',
     component: profile
+  },
+  {
+    path: '/update-password',
+    name: 'update_password',
+    component: update_password
   },
   {
     path: '/another',
