@@ -8,9 +8,9 @@
         {{item.label}} <small v-if="is_required">(required)</small>
       </label>
 
-      <component :is="object_value(item, 'form.element', 'input')"
-                 :type="object_value(item, 'form.type', 'text')"
-                 :class="[!is_checkbox_or_radio ? 'form-control' : 'form-check-input', !is_valid ? 'is-invalid' : '']"
+      <component :is="element"
+                 :type="element_type"
+                 :class="element_class"
                  :id="item.name"
                  :name="item.name"
                  :aria-describedby="item.name"
@@ -54,6 +54,18 @@
   export default {
     props: ['value', 'item', 'validation_error'],
     computed: {
+      element() {
+        return object_value(this, 'item.form.element', 'input')
+      },
+      element_type() {
+        return object_value(this, 'item.form.type', 'text')
+      },
+      element_class() {
+        return [
+          !this.is_checkbox_or_radio ? 'form-control' : 'form-check-input',
+          !this.is_valid ? 'is-invalid' : ''
+        ]
+      },
       is_required() {
         return !object_value(this, 'item.optional')
       },
