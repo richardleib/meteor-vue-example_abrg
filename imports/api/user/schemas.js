@@ -59,7 +59,10 @@ export const schema__user_resetPassword = new SimpleSchema({
 })
 
 export const schema__user_update = new SimpleSchema({
-  sponsor,
+  get__sponsor_username: {
+    ...sponsor,
+    label: 'Sponsor'
+  },
   username: options.for_name,
   email: options.for_email,
   firstName: options.for_name,
@@ -77,10 +80,22 @@ export const schema__user_update = new SimpleSchema({
   },
   zipCode: options.for_string,
   site: options.for_string,
-  odnoklassniki: options.for_string,
-  vk: options.for_string,
-  fb: options.for_string,
-  youtube: options.for_string,
+  odnoklassniki: {
+    ...options.for_string,
+    label: 'Odnoklassniki profile address'
+  },
+  vk: {
+    ...options.for_string,
+    label: 'VK profile address'
+  },
+  fb: {
+    ...options.for_string,
+    label: 'Facebook profile address'
+  },
+  youtube: {
+    ...options.for_string,
+    label: 'Youtube profile address'
+  },
   autoExtensionBS: {
     ...options.for_numeric_boolean,
     label: 'BS auto extension'

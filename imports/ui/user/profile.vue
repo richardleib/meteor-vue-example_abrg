@@ -3,7 +3,9 @@
     <form_constructor v-if="data"
                       :schema="schema"
                       form_name="user"
-                      :form_loaded_data="data"/>
+                      form_title="Your profile"
+                      :form_loaded_data="data"
+                      :form_toggle_edit=true />
     <form__loading v-else />
   </div>
 </template>

@@ -9,8 +9,17 @@
       <hr>
     </template>
 
-    <fieldset :disabled="action_running">
-      <template v-if="route_name === 'register'">
+    <template v-if="form_is_disabled">
+      <button class="btn btn-primary btn-sm"
+              type="button"
+              @click="toggle_edit()">Edit
+      </button>
+
+      <hr>
+    </template>
+
+    <fieldset :disabled="form_is_disabled">
+      <template v-if="form_name === 'register'">
         <button class="btn btn-primary btn-sm"
                 type="button"
                 @click="generate_demo_values()">Insert demo values
@@ -32,7 +41,8 @@
         <small v-html="action_error"></small>
       </b-alert>
 
-      <footer class="b-form-footer d-flex align-items-baseline">
+      <footer v-if="!form_is_disabled"
+              class="b-form-footer d-flex align-items-baseline">
 
         <button class="col-auto btn btn-primary"
                 :disabled="!allow_submit">Submit</button>
@@ -59,7 +69,13 @@
     components: {
       form__item
     },
-    props: ['schema', 'form_name', 'form_title', 'form_loaded_data'],
+    props: [
+      'schema',
+      'form_name',
+      'form_title',
+      'form_loaded_data',
+      'form_toggle_edit'
+    ],
     data() {
       return {
         route_name: null,
@@ -68,15 +84,22 @@
         form_validation_errors: [],
         show_form_validation_error: [],
         action_running: false,
-        action_error: false
+        action_error: false,
+        form_disabled: false
       }
     },
     created() {
-      //console.log( this.schema_items )
+      if (this.form_toggle_edit) {
+        this.form_disabled = true
+      }
 
       // Set initial values
       Object.entries( this.schema_items ).forEach(([key, value]) => {
-        this.form_data[key] = object_value(value, 'form.value', null)
+        let form_value = object_value(value, 'form.value', null)
+
+        if ( form_value !== null ) {
+          this.form_data[key] = form_value
+        }
       })
 
       // Set loaded values
@@ -114,6 +137,9 @@
       allow_submit() {
         return this.form_is_valid && !this.action_running && !this.action_error
       },
+      form_is_disabled() {
+        return this.action_running || this.form_disabled
+      }
     },
     methods: {
       object_value() {
@@ -259,6 +285,52 @@
             })
         }
 
+        // Update user profile
+        if (this.form_name === 'user') {
+          Meteor.callAsync('method__user_update', data, this.$store.state.user_token)
+            .then(result => {
+              console.log('method__user_update - result:' , result)
+
+              // Save updated value in store
+              this.$store.commit('set_user', result)
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'Your profile has been updated'
+              })
+
+              // Finish form editing
+              this.form_disabled = true
+
+              return result
+            })
+            .catch(error => {
+              console.log('method__user_update - error:', error)
+
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              this.action_error = message
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not updated',
+                text: message
+              })
+
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
+
+      },
+      toggle_edit() {
+        this.form_disabled = !this.form_disabled
       }
     }
   }
