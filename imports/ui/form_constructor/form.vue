@@ -9,7 +9,7 @@
       <hr>
     </template>
 
-    <template v-if="form_is_disabled">
+    <template v-if="show_edit_button">
       <button class="btn btn-primary btn-sm"
               type="button"
               @click="toggle_edit()">Edit
@@ -139,6 +139,9 @@
       },
       form_is_disabled() {
         return this.action_running || this.form_disabled
+      },
+      show_edit_button() {
+        return this.form_is_disabled && this.form_toggle_edit
       }
     },
     methods: {
@@ -357,6 +360,46 @@
               this.$notify({
                 group: 'notifications',
                 title: 'Not updated',
+                text: message
+              })
+
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
+
+        // Reset password
+        if (this.form_name === 'reset_password') {
+          Meteor.callAsync('method__user_password_reset', data)
+            .then(result => {
+              console.log('method__user_password_reset - result:' , result)
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'Your password has been reset'
+              })
+
+              // Finish form editing
+              this.form_disabled = true
+
+              return result
+            })
+            .catch(error => {
+              console.log('method__user_password_reset - error:', error)
+
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              this.action_error = message
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not reset',
                 text: message
               })
 

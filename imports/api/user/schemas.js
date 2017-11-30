@@ -18,6 +18,24 @@ let finPassword = {
   label: 'Financial password'
 }
 
+let password_type = {
+  type: String,
+  form: {
+    element: 'select',
+    options: [
+      {
+        selected: true,
+        label: 'User password',
+        value: '0'
+      },
+      {
+        label: 'Financial password',
+        value: '1'
+      }
+    ]
+  }
+}
+
 export const schema__user_create = new SimpleSchema({
   sponsor,
   username: options.for_name,
@@ -50,25 +68,17 @@ export const schema__user_login = new SimpleSchema({
 
 export const schema__password_update = new SimpleSchema({
   // token: String,
-  type: {
-    type: String,
-    form: {
-      element: 'select',
-      options: [
-        {
-          selected: true,
-          label: 'User password',
-          value: '0'
-        },
-        {
-          label: 'Financial password',
-          value: '1'
-        }
-      ]
-    }
-  },
+  type: password_type,
   oldPassword: options.for_password,
   newPassword: options.for_password
+}, {
+  check,
+  tracker: Tracker
+})
+
+export const schema__password_reset = new SimpleSchema({
+  type: password_type,
+  username: options.for_name
 }, {
   check,
   tracker: Tracker

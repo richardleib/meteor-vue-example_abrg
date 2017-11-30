@@ -38,6 +38,9 @@
 
         <template v-else>
           <router-link class="nav-link"
+                       :to="{ name:'reset_password' }">Reset password</router-link>
+
+          <router-link class="nav-link"
                        :to="{ name:'register' }">Register</router-link>
 
           <router-link class="nav-link"
