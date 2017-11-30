@@ -5,6 +5,12 @@ import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
 import SimpleSchema from "simpl-schema"
 
+/**
+ * Format loaded data from API
+ * @param data
+ * @param schema
+ * @returns {Object}
+ */
 function format_loaded_user_data(data, schema) {
   if (!data) {
     return false
@@ -44,6 +50,11 @@ function format_loaded_user_data(data, schema) {
 }
 
 Meteor.methods({
+  /**
+   * Create user
+   * @param data
+   * @returns {Promise<*>}
+   */
   async method__user_create(data) {
     schema__user_create.validate(data)
 
@@ -90,6 +101,11 @@ Meteor.methods({
       return error
     }
   },
+  /**
+   * Authorise user
+   * @param data
+   * @returns {Promise<*>}
+   */
   async method__user_sign_in(data) {
     schema__user_login.validate(data)
 
@@ -134,6 +150,11 @@ Meteor.methods({
       return error
     }
   },
+  /**
+   * Load user profile
+   * @param user_token Stored on client encrypted token
+   * @returns {Promise<*>}
+   */
   async method__user_load(user_token) {
     new SimpleSchema({
       user_token: {type: String}
@@ -177,6 +198,12 @@ Meteor.methods({
       return error
     }
   },
+  /**
+   * Update user
+   * @param data
+   * @param user_token Stored on client encrypted token
+   * @returns {Promise<*>}
+   */
   async method__user_update(data, user_token) {
     let schema = schema__user_update
     schema.validate(data)
