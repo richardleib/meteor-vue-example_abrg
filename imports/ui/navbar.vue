@@ -11,7 +11,8 @@
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav v-if="user_token" key="user_tools">
-        <b-nav-item href="#">Sponsors</b-nav-item>
+        <router-link class="nav-link"
+                     :to="{ name:'partners' }">Partners</router-link>
         <b-nav-item href="#">Notes</b-nav-item>
       </b-navbar-nav>
 

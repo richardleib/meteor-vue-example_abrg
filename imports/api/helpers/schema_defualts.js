@@ -5,6 +5,10 @@ export const for_string = {
   max: 64
 }
 
+export const for_number = {
+  type: Number
+}
+
 export const for_letter_numeric = {
   ...for_string,
   regEx: /^[a-zA-Z0-9]*$/

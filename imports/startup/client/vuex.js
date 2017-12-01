@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     user_token: localStorage.getItem('user_token'),
     user: null,
+    user_partners: null
   },
   getters: {
     is_authorised: state => !!state.user_token,
@@ -43,6 +44,12 @@ export default new Vuex.Store({
     },
     remove_user(state) {
       state.user = null
+    },
+    set_user_partners(state, param) {
+      state.user_partners = param
+    },
+    remove_user_partners(state) {
+      state.user_partners = null
     }
   },
   actions: {
@@ -56,7 +63,6 @@ export default new Vuex.Store({
 
       Meteor.callAsync('method__user_load', user_token)
         .then(result => {
-          // Save user profile
           console.log('method__user_load - result:', result)
 
           commit('set_user', result)
@@ -64,17 +70,37 @@ export default new Vuex.Store({
           return result
         })
         .catch(error => {
-          console.error('method__user_profile - error:', error)
+          console.error('method__user_load - error:', error)
 
           return error
         })
-        // .then(result => {
-        //   // Finish
-        // })
+    },
+    load_partners({ commit, state }) {
+      let user_token = state.user_token
+      console.log('load_partners - user_token:', user_token)
+
+      if (!user_token) {
+        return false
+      }
+
+      Meteor.callAsync('method__partners_load', user_token)
+        .then(result => {
+          console.log('method__partners_load - result:', result)
+
+          commit('set_user_partners', result)
+
+          return result
+        })
+        .catch(error => {
+          console.error('method__partners_load - error:', error)
+
+          return error
+        })
     },
     clean_user_data({ commit, state }) {
       commit('remove_user_token')
       commit('remove_user')
+      commit('remove_user_partners')
     }
   }
 })

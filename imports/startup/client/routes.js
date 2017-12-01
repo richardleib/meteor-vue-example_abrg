@@ -10,6 +10,7 @@ sign_in = () => import('/imports/ui/user/sign_in.vue')
 profile = () => import('/imports/ui/user/profile.vue')
 update_password = () => import('/imports/ui/user/update_password.vue')
 reset_password = () => import('/imports/ui/user/reset_password.vue')
+partners = () => import('/imports/ui/partners/partners.vue')
 another = () => import('/imports/ui/another.vue')
 
 let is_authorised = store.getters.is_authorised
@@ -44,6 +45,11 @@ export default [
     path: '/reset-password',
     name: 'reset_password',
     component: reset_password
+  },
+  {
+    path: '/partners',
+    name: 'partners',
+    component: !is_authorised ? not_authorised : partners
   },
   {
     path: '/another',
