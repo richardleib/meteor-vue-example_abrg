@@ -3,7 +3,7 @@
     <b-row class="justify-content-md-center">
       <b-col md="6">
         <table-component tableClass="table"
-                         :data="fetchData"
+                         :data="fetch_data"
                          sort-by="username"
                          sort-order="asc"
                          filterInputClass="form-control form-control-sm w-50">
@@ -31,8 +31,8 @@
       true_false(value, rowProperties) {
         return value ? 'Online' : 'Offline'
       },
-      fetchData: throttle(1000, async function({ page = 1, filter, sort }) {
-        console.log('fetchData:', ...arguments)
+      fetch_data: throttle(1000, async function({ page = 1, filter, sort }) {
+        console.log('fetch_data:', ...arguments)
 
         const user_token = this.$store.state.user_token
 
@@ -66,7 +66,7 @@
             return error
           })
 
-        console.log('fetchData - response:', response)
+        console.log('fetch_data - response:', response)
         return response
       })
     }
