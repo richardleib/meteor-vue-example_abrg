@@ -8,33 +8,49 @@
         {{item.label}} <small v-if="is_required">(required)</small>
       </label>
 
-      <component :is="element"
-                 :type="element_type"
-                 :class="element_class"
-                 :id="item.name"
-                 :name="item.name"
-                 :aria-describedby="item.name"
-                 :readonly="object_value(item, 'form.readonly')"
-                 :disabled="object_value(item, 'form.disabled')"
-                 :required="is_required"
-                 :value="value"
-                 :checked="is_checked"
-                 @input="run_on_input"
-                 @click="run_on_click">
+      <template v-if="object_value(item, 'form.element') === 'textarea'">
+        <!-- Have to make another element for `textarea` because `component :is="textarea"` does not work with `:value` -->
+        <textarea :class="element_class"
+                  :id="item.name"
+                  :name="item.name"
+                  :aria-describedby="item.name"
+                  :readonly="object_value(item, 'form.readonly')"
+                  :disabled="object_value(item, 'form.disabled')"
+                  :required="is_required"
+                  :value="value"
+                  @input="run_on_input"
+                  @click="run_on_click"
+                  v-autosize></textarea>
+      </template>
+      <template v-else>
+        <component :is="element"
+                   :type="element_type"
+                   :class="element_class"
+                   :id="item.name"
+                   :name="item.name"
+                   :aria-describedby="item.name"
+                   :readonly="object_value(item, 'form.readonly')"
+                   :disabled="object_value(item, 'form.disabled')"
+                   :required="is_required"
+                   :value="value"
+                   :checked="is_checked"
+                   @input="run_on_input"
+                   @click="run_on_click">
 
-        <template v-if="object_value(item, 'form.element') === 'select'">
-          <option value=''
-                  selected>Select...
-          </option>
-          <option v-for="(option, index) of object_value(item, 'form.options')"
-                  :key="index"
-                  :value="option.value || ''"
-                  :disabled="object_value(option, 'disabled')">
-            {{option.label}}
-          </option>
-        </template>
+          <template v-if="object_value(item, 'form.element') === 'select'">
+            <option value=''
+                    selected>Select...
+            </option>
+            <option v-for="(option, index) of object_value(item, 'form.options')"
+                    :key="index"
+                    :value="option.value || ''"
+                    :disabled="object_value(option, 'disabled')">
+              {{option.label}}
+            </option>
+          </template>
 
-      </component>
+        </component>
+      </template>
 
       <!--<small class="form-text text-muted">We'll never share your email with anyone else.</small>-->
       <div v-if="!is_valid && validation_error_message"
@@ -55,7 +71,13 @@
     props: ['value', 'item', 'validation_error'],
     computed: {
       element() {
-        return object_value(this, 'item.form.element', 'input')
+        let element = object_value(this, 'item.form.element', 'input')
+
+        // if (element === 'textarea') {
+        //   element = 'b-form-textarea'
+        // }
+
+        return element
       },
       element_type() {
         return object_value(this, 'item.form.type', 'text')

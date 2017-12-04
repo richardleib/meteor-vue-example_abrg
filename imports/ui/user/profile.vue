@@ -2,6 +2,7 @@
   <div class="row justify-content-center">
     <form_constructor v-if="data"
                       :schema="schema"
+                      form_class="b-form b-form_small"
                       form_name="user"
                       form_title="Your profile"
                       :form_loaded_data="data"

@@ -37,6 +37,13 @@ export const for_password = {
   }
 }
 
+export const for_textarea = {
+  type: String,
+  form: {
+    element: 'textarea'
+  }
+}
+
 export const for_numeric_boolean = {
   type: SimpleSchema.Integer,
   allowedValues: [0, 1],

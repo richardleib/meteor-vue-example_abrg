@@ -75,28 +75,6 @@ export default new Vuex.Store({
           return error
         })
     },
-    load_partners({ commit, state }) {
-      let user_token = state.user_token
-      console.log('load_partners - user_token:', user_token)
-
-      if (!user_token) {
-        return false
-      }
-
-      Meteor.callAsync('method__partners_load', user_token)
-        .then(result => {
-          console.log('method__partners_load - result:', result)
-
-          commit('set_user_partners', result)
-
-          return result
-        })
-        .catch(error => {
-          console.error('method__partners_load - error:', error)
-
-          return error
-        })
-    },
     clean_user_data({ commit, state }) {
       commit('remove_user_token')
       commit('remove_user')

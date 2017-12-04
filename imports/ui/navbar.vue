@@ -13,7 +13,8 @@
       <b-navbar-nav v-if="user_token" key="user_tools">
         <router-link class="nav-link"
                      :to="{ name:'partners' }">Partners</router-link>
-        <b-nav-item href="#">Notes</b-nav-item>
+        <router-link class="nav-link"
+                     :to="{ name:'notes' }">Notes</router-link>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

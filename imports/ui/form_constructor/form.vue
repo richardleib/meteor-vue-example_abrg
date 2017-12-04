@@ -1,5 +1,5 @@
 <template>
-  <form class="b-form"
+  <form :class="form_class"
         @input="validate_form"
         @submit.prevent="submit_form"
         novalidate>
@@ -71,6 +71,7 @@
     },
     props: [
       'schema',
+      'form_class',
       'form_name',
       'form_title',
       'form_loaded_data',
@@ -101,6 +102,9 @@
           this.form_data[key] = form_value
         }
       })
+
+
+      console.log("form_loaded_data", form_loaded_data)
 
       // Set loaded values
       let form_loaded_data = this.form_loaded_data
@@ -203,7 +207,7 @@
         this.show_form_validation_error__add(name)
         this.form_data[name] = value
       },
-      submit_form(event) {
+      async submit_form(event) {
         this.validate_form()
         this.show_form_validation_error__all()
 
@@ -213,6 +217,7 @@
         this.action_running = true
 
         const data = this.form_data
+        const user_token = this.$store.state.user_token
 
         // Register
         if (this.form_name === 'register') {
@@ -308,7 +313,7 @@
 
         // Update user profile
         if (this.form_name === 'user') {
-          Meteor.callAsync('method__user_update', data, this.$store.state.user_token)
+          Meteor.callAsync('method__user_update', data, user_token)
             .then(result => {
               console.log('method__user_update - result:' , result)
 
@@ -351,7 +356,7 @@
 
         // Update password
         if (this.form_name === 'update_password') {
-          Meteor.callAsync('method__user_password_update', data, this.$store.state.user_token)
+          Meteor.callAsync('method__user_password_update', data, user_token)
             .then(result => {
               console.log('method__user_password_update - result:' , result)
 
@@ -418,6 +423,90 @@
               this.$notify({
                 group: 'notifications',
                 title: 'Not reset',
+                text: message
+              })
+
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
+
+        // Create note
+        if (this.form_name === 'create_note') {
+          Meteor.callAsync('method__note_create', data, user_token)
+            .then(result => {
+              console.log('method__note_create - result:', result)
+
+              // Direct Meteor method call, no Vuex store and methods here
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'Your have created a note'
+              })
+
+              // Proceed to profile
+              this.$router.push({name: 'notes'})
+
+              return result
+            })
+            .catch(error => {
+              console.error('method__note_create - error:', error)
+
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              this.action_error = message
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not created',
+                text: message
+              })
+
+              return error
+            })
+            .then(result => {
+              // Finish
+              this.action_running = false
+            })
+        }
+
+        // Update note
+        if (this.form_name === 'update_note') {
+          Meteor.callAsync('method__note_update', data, user_token)
+            .then(result => {
+              console.log('method__note_update - result:', result)
+
+              // Direct Meteor method call, no Vuex store and methods here
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Success',
+                text: 'Your have updated this note'
+              })
+
+              // Proceed to profile
+              this.$router.push({name: 'note', params: {__id: data.id}})
+
+              return result
+            })
+            .catch(error => {
+              console.error('method__note_update - error:', error)
+
+              // Set error message
+              let message = object_value(error, 'error', 'Error')
+              this.action_error = message
+
+              // Show notification
+              this.$notify({
+                group: 'notifications',
+                title: 'Not created',
                 text: message
               })
 
