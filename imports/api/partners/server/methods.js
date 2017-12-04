@@ -28,7 +28,7 @@ Meteor.methods({
       const result = HTTP.get(url, { params: {token} })
       console.log('method__partners_load - result:', result)
 
-      return result.data
+      return { data: result.data }
 
     } catch (error) {
 
