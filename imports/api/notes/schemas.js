@@ -5,8 +5,15 @@ import * as options from '/imports/api/helpers/schema_defaults'
 
 SimpleSchema.extendOptions(['form'])
 
+let id = {
+  ...options.for_string,
+  form: {
+    hidden: true
+  }
+}
+
 export const schema__notes_load = new SimpleSchema({
-  id: options.for_string,
+  id,
   limit: options.for_number,
   skip: options.for_number,
   field: options.for_string,
@@ -31,7 +38,7 @@ export const schema__note_create = new SimpleSchema({
 })
 
 export const schema__note_update = new SimpleSchema({
-  id: options.for_string,
+  id,
   title: {
     ...options.for_string,
     optional: true
@@ -46,7 +53,7 @@ export const schema__note_update = new SimpleSchema({
 })
 
 export const schema__note_delete = new SimpleSchema({
-  id: options.for_string
+  id
 }, {
   check,
   tracker: Tracker

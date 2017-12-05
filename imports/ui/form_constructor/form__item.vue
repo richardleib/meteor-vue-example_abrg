@@ -1,5 +1,6 @@
 <template>
-  <div :class="!is_checkbox_or_radio ? 'form-group' : 'form-check'">
+  <div v-if="!object_value(item, 'form.hidden')"
+       :class="!is_checkbox_or_radio ? 'form-group' : 'form-check'">
     <component :is="is_checkbox_or_radio ? 'label' : 'div'"
                :class="is_checkbox_or_radio ? 'form-check-label' : ''">
 
