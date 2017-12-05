@@ -1,9 +1,22 @@
 .b-layout
+  display: flex
+  flex-direction: column
+  height: 100vh
   background: #fafafa
-  min-height: 100vh
 
-.navbar
-  margin-bottom: 20px
+.b-main
+  flex: 1
+  overflow-y: auto
+
+.b-scrollable
+  &-container
+    display: flex
+    flex-direction: column
+    box-sizing: border-box
+    height: calc(100vh - 72px)
+
+  &-main
+    overflow-y: auto
 
 .b-form
   background: #fff
@@ -17,11 +30,13 @@
   &-footer
     margin-top: 30px
 
-.table-component__filter
-  margin-bottom: 10px
-
 .b-notes
   &-list
+    position: relative
+    flex: 1
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
 
     > *
       margin-bottom: 0.75rem
@@ -43,17 +58,30 @@
 
       &-title
         display: block
+        word-break: break-word
 
       &-body
         display: block
-        white-space: pre
         font-size: 0.6em
+        word-break: break-word
 
   &-note
     background: #fff
-    padding: 24px
+    padding: 8px
     width: 100%
     box-sizing: border-box
 
+    @media (min-width: 576px)
+      padding: 24px
+
+    &-close
+      position: absolute
+      top: 0
+      right: 0
+
     &-body
       white-space: pre
+      //word-break: break-word
+
+.table-component__filter
+  margin-bottom: 10px

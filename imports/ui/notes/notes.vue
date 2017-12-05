@@ -1,18 +1,25 @@
 <template>
   <b-container fluid>
-    <b-row>
-      <b-col sm="4"
+    <b-row no-gutters>
+      <b-col v-if="$store.state.window_width >= 576 || this.route.name === 'notes'"
+             class="b-scrollable-container pr-sm-3"
+             sm="4"
              offset-lg="2" lg="3">
+        <router-link class="btn btn-primary align-self-start mb-3"
+                     :to="{ name: 'create_note' }">Add note</router-link>
         <div v-if="notes"
-             class="b-notes-list d-flex flex-column justify-content-start">
-          <router-link class="btn btn-primary align-self-start"
-                       :to="{ name: 'create_note' }">Add note</router-link>
+             class="b-notes-list b-scrollable-main"
+             id="aaaaaaa"
+             ref="notes__list">
           <notes__list__item v-for="(note, index) of notes"
+                             :sort="note.dateCreated"
                              :key="index"
                              :note="note"/>
         </div>
       </b-col>
-      <b-col sm="8"
+      <b-col v-if="$store.state.window_width >= 576 || route.name !== 'notes'"
+             class="b-scrollable-container"
+             sm="8"
              lg="5">
         <notes__note v-if="route.name === 'note' && current_note"
                      :note="current_note"/>
@@ -70,7 +77,8 @@
 
         let fetched_data = await this.fetch_data({ id })
         let note = object_value(fetched_data, 'data')
-        console.log('notes.vue - current_note:', note)
+        // console.log('notes.vue - current_note:', note)
+
         return note
       }
     },

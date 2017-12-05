@@ -1,6 +1,10 @@
 <template>
-  <div class="b-notes-note">
+  <div class="b-notes-note b-scrollable-main">
     <h2>{{note.title || '[Untitled]'}}</h2>
+    <router-link class="b-notes-note-close close p-2 d-sm-none"
+                 :to="{ name: 'notes' }">
+      <span aria-hidden="true">&times;</span>
+    </router-link>
     <hr>
     <div class="d-flex align-items-baseline justify-content-between flex-wrap">
       <b-badge v-if="date"
@@ -35,7 +39,7 @@
     },
     methods: {
       edit_note() {
-        this.$router.push({ name: 'edit_note', params: {_id: this.note._id} })
+        this.$router.push({name: 'edit_note', params: {_id: this.note._id}})
       },
       async delete_note() {
         if (!confirm('Delete?')) {

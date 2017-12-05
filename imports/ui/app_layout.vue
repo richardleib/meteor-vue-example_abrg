@@ -1,7 +1,9 @@
 <template>
   <div class="b-layout">
     <navbar/>
-    <router-view/>
+    <div class="b-main">
+      <router-view/>
+    </div>
     <notifications group="notifications"
                    position="top center" />
   </div>
