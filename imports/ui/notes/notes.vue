@@ -44,22 +44,6 @@
       notes__update_note,
       notes__note
     },
-    data() {
-      return {
-        route: ''
-      }
-    },
-    watch: {
-      '$route': {
-        handler: function (to, from) {
-          console.log('watch - $route to:', to)
-          console.log('watch - $route from:', from)
-
-          this.route = to
-        },
-        immediate: true
-      }
-    },
     asyncComputed: {
       async notes() {
         let fetched = await this.fetch_data()
@@ -78,6 +62,11 @@
         // console.log('notes.vue - current_note:', note)
 
         return note
+      }
+    },
+    computed: {
+      route() {
+        return this.$store.state.reactive_route
       }
     },
     methods: {

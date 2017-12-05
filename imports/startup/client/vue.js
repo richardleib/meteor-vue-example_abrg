@@ -51,6 +51,17 @@ Meteor.startup(() => {
       handle_window_resize(event) {
         this.$store.commit('window_width', event.currentTarget.innerWidth)
       }
+    },
+    watch: {
+      '$route': {
+        handler: function (to, from) {
+          console.log('watch - $route to:', to)
+          console.log('watch - $route from:', from)
+
+          this.$store.commit('set_reactive_route', to)
+        },
+        immediate: true
+      }
     }
   })
 });
