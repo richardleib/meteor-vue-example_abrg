@@ -21,6 +21,8 @@
       }
     },
     created() {
+      this.$store.dispatch('load_notes')
+
       this.filter_data = {
         id: this.note._id,
         title: this.note.title,

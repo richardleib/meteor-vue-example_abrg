@@ -440,7 +440,8 @@
             .then(result => {
               console.log('method__note_create - result:', result)
 
-              // Direct Meteor method call, no Vuex store and methods here
+              // Reload notes from server
+              this.$store.dispatch('load_notes')
 
               // Show notification
               this.$notify({
@@ -488,8 +489,9 @@
           Meteor.callAsync('method__note_update', data, user_token)
             .then(result => {
               console.log('method__note_update - result:', result)
-
-              // Direct Meteor method call, no Vuex store and methods here
+              
+              // Reload notes from server
+              this.$store.dispatch('load_notes')
 
               // Show notification
               this.$notify({

@@ -36,7 +36,7 @@ Meteor.methods({
       const result = HTTP.get(url, { params: {token, ...search_query} })
       console.log('method__notes_load - result:', result)
 
-      return { data: result.data }
+      return result.data
 
     } catch (error) {
 

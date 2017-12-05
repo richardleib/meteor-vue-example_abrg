@@ -30,7 +30,7 @@
   export default {
     props: ['note'],
     created() {
-      console.log(this)
+      this.$store.dispatch('load_notes')
     },
     computed: {
       date() {
@@ -52,6 +52,8 @@
         Meteor.callAsync('method__note_delete', { id }, user_token)
           .then(result => {
             console.log('method__note_delete - result:', result)
+
+            this.$store.dispatch('load_notes')
 
             return result
           })

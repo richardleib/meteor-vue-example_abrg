@@ -49,7 +49,7 @@ Meteor.startup(() => {
     },
     methods: {
       handle_window_resize(event) {
-        this.$store.commit('window_width', event.currentTarget.innerWidth)
+        this.$store.commit('set_window_width', event.currentTarget.innerWidth)
       }
     },
     watch: {

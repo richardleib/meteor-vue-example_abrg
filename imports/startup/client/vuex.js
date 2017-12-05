@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { Meteor } from 'meteor/meteor'
+import object_value from '/imports/api/helpers/object_value'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,7 @@ export default new Vuex.Store({
     reactive_route: null,
     user_token: localStorage.getItem('user_token'),
     user: null,
-    user_partners: null
+    notes: null
   },
   getters: {
     is_authorised: state => !!state.user_token,
@@ -30,34 +31,45 @@ export default new Vuex.Store({
       })
 
       return schema_items
+    },
+    current_note: (state, getters) => {
+      let id = object_value(state, 'reactive_route.params._id')
+
+      if (!id) {
+        return false
+      }
+
+      console.log('vuex - current_note - state.notes:', state.notes)
+
+      return state.notes.find(obj => obj._id === id)
     }
   },
   mutations: {
-    window_width(state, width) {
+    set_window_width(state, width) {
       state.window_width = width
     },
     set_reactive_route(state, route) {
       state.reactive_route = route
     },
-    set_user_token(state, param) {
-      state.user_token = param
+    set_user_token(state, data) {
+      state.user_token = data
       localStorage.setItem('user_token', state.user_token)
     },
     remove_user_token(state) {
       state.user_token = '' // localStorage stores strings
       localStorage.setItem('user_token', state.user_token)
     },
-    set_user(state, param) {
-      state.user = param
+    set_user(state, data) {
+      state.user = data
     },
     remove_user(state) {
       state.user = null
     },
-    set_user_partners(state, param) {
-      state.user_partners = param
+    set_notes(state, data) {
+      state.notes = data
     },
-    remove_user_partners(state) {
-      state.user_partners = null
+    remove_notes(state) {
+      state.notes = null
     }
   },
   actions: {
@@ -86,7 +98,27 @@ export default new Vuex.Store({
     clean_user_data({ commit, state }) {
       commit('remove_user_token')
       commit('remove_user')
-      commit('remove_user_partners')
+      commit('remove_notes')
+    },
+    load_notes({ commit, state }, search_query = {}) {
+      const user_token = state.user_token
+
+      Meteor.callAsync('method__notes_load', { search_query, user_token })
+        .then(result => {
+          console.log('method__notes_load - result:', result)
+
+          commit('set_notes', result)
+
+          return result
+        })
+        .catch(error => {
+          console.error('method__notes_load - error:', error)
+
+          return error
+        })
+
+      // console.log('fetch_data - response:', response)
+      // return response
     }
   }
 })

@@ -13,6 +13,9 @@
     components: {
       form_constructor
     },
+    created() {
+      this.$store.dispatch('load_notes')
+    },
     computed: {
       schema() {
         return schema__note_create
