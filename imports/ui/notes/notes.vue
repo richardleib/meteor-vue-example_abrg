@@ -24,6 +24,12 @@
         <notes__create_note v-else-if="route.name === 'create_note'"/>
         <notes__update_note v-else-if="route.name === 'edit_note' && current_note"
                             :note="current_note"/>
+        <div v-else
+             class="b-form d-flex flex-wrap justify-content-center align-items-baseline">
+          Select or
+          <router-link class="btn btn-outline-primary ml-2"
+                       :to="{ name: 'create_note' }">Add note</router-link>
+        </div>
       </b-col>
     </b-row>
   </b-container>
