@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="md"
+  <b-navbar class="mb-3" toggleable="md"
             type="dark"
             variant="dark">
 
@@ -13,7 +13,10 @@
       <b-navbar-nav v-if="user_token" key="user_tools">
         <router-link class="nav-link"
                      :to="{ name:'partners' }">Partners</router-link>
-        <b-nav-item href="#">Notes</b-nav-item>
+        <router-link class="nav-link"
+                     :to="{ name:'notes' }">Notes</router-link>
+        <router-link class="nav-link d-md-none"
+                     :to="{ name:'create_note' }">Add note</router-link>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

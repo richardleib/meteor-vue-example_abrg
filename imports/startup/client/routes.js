@@ -11,6 +11,7 @@ profile = () => import('/imports/ui/user/profile.vue')
 update_password = () => import('/imports/ui/user/update_password.vue')
 reset_password = () => import('/imports/ui/user/reset_password.vue')
 partners = () => import('/imports/ui/partners/partners.vue')
+notes = () => import('/imports/ui/notes/notes.vue')
 another = () => import('/imports/ui/another.vue')
 
 let is_authorised = store.getters.is_authorised
@@ -50,6 +51,28 @@ export default [
     path: '/partners',
     name: 'partners',
     component: !is_authorised ? not_authorised : partners
+  },
+  {
+    path: '/notes',
+    name: 'notes',
+    component: !is_authorised ? not_authorised : notes,
+    children: [
+      {
+        path: 'create',
+        name: 'create_note',
+        component: !is_authorised ? not_authorised : notes
+      },
+      {
+        path: 'id/:_id',
+        name: 'note',
+        component: !is_authorised ? not_authorised : notes
+      },
+      {
+        path: 'id/:_id/edit',
+        name: 'edit_note',
+        component: !is_authorised ? not_authorised : notes
+      }
+    ]
   },
   {
     path: '/another',
