@@ -236,7 +236,7 @@
               })
 
               // Proceed to profile
-              this.$router.push({name: 'profile'}, () => window.scrollTo(0,0))
+              this.$router.push({name: 'profile'}, () => window.scrollTo(0, 0))
 
               return result
             })
@@ -254,7 +254,7 @@
                   break
               }
               this.action_error = message
-              
+
               // Show notification
               this.$notify({
                 group: 'notifications',
@@ -315,7 +315,7 @@
         if (this.form_name === 'user') {
           Meteor.callAsync('method__user_update', data, user_token)
             .then(result => {
-              console.log('method__user_update - result:' , result)
+              console.log('method__user_update - result:', result)
 
               // Save updated value in store
               this.$store.commit('set_user', result)
@@ -358,7 +358,7 @@
         if (this.form_name === 'update_password') {
           Meteor.callAsync('method__user_password_update', data, user_token)
             .then(result => {
-              console.log('method__user_password_update - result:' , result)
+              console.log('method__user_password_update - result:', result)
 
               // Show notification
               this.$notify({
@@ -398,7 +398,7 @@
         if (this.form_name === 'reset_password') {
           Meteor.callAsync('method__user_password_reset', data)
             .then(result => {
-              console.log('method__user_password_reset - result:' , result)
+              console.log('method__user_password_reset - result:', result)
 
               // Show notification
               this.$notify({
@@ -449,7 +449,14 @@
                 text: 'Your have created a note'
               })
 
-              // Proceed to profile
+              // Proceed to created note
+              /* TODO: Open created page. Add `_id` to API response or fix API field and sort does not work
+              let search_query = {
+                field: "dateCreated",
+                sort: "desc"
+              }
+              */
+
               this.$router.push({name: 'notes'})
 
               return result
@@ -491,8 +498,8 @@
                 text: 'Your have updated this note'
               })
 
-              // Proceed to profile
-              this.$router.push({name: 'note', params: {__id: data.id}})
+              // Proceed to updated note
+              this.$router.push({name: 'note', params: {_id: data.id}})
 
               return result
             })
@@ -506,7 +513,7 @@
               // Show notification
               this.$notify({
                 group: 'notifications',
-                title: 'Not created',
+                title: 'Not updated',
                 text: message
               })
 
