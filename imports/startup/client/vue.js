@@ -1,22 +1,28 @@
 // Libs
 import { Meteor } from 'meteor/meteor'
 import Vue from 'vue'
+
 import VueRouter from 'vue-router'
-// import VueMeteorTracker from 'vue-meteor-tracker'
-import BootstrapVue from 'bootstrap-vue'
-import Notifications from 'vue-notification'
-import VueAutosize from 'vue-autosize'
+Vue.use(VueRouter)
+
 import AsyncComputed from 'vue-async-computed'
+Vue.use(AsyncComputed)
+
+// import VueMeteorTracker from 'vue-meteor-tracker'
+// Vue.use(VueMeteorTracker)
+
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+
+import Notifications from 'vue-notification'
+Vue.use(Notifications)
+
+import VueAutosize from 'vue-autosize'
+Vue.use(VueAutosize)
+
 import routes from '/imports/startup/client/routes'
 import store from '/imports/startup/client/vuex'
 import app_layout from '/imports/ui/app_layout.vue'
-
-Vue.use(VueRouter)
-// Vue.use(VueMeteorTracker)
-Vue.use(BootstrapVue)
-Vue.use(Notifications)
-Vue.use(VueAutosize)
-Vue.use(AsyncComputed)
 
 const router = new VueRouter({
   routes,
