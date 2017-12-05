@@ -1,7 +1,7 @@
 <template>
   <router-link class="b-notes-list-item"
                :to="{ name: 'note', params: {_id: note._id} }">
-    <span class="b-notes-list-item-title">{{note.title || '[Untitled]'}} {{is_current}}</span>
+    <span class="b-notes-list-item-title">{{note.title || '[Untitled]'}}</span>
     <span class="b-notes-list-item-body"
           v-html="note_body"></span>
   </router-link>
