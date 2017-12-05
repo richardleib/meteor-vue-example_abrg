@@ -9,6 +9,7 @@ export const schema__notes_load = new SimpleSchema({
   id: options.for_string,
   limit: options.for_number,
   skip: options.for_number,
+  field: options.for_string,
   sort: options.for_string,
   filterField: options.for_string,
   filterValue: options.for_string
