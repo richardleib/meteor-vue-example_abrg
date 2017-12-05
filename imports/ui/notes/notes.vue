@@ -8,9 +8,7 @@
         <router-link class="btn btn-primary align-self-start mb-3"
                      :to="{ name: 'create_note' }">Add note</router-link>
         <div v-if="notes"
-             class="b-notes-list b-scrollable-main"
-             id="aaaaaaa"
-             ref="notes__list">
+             class="b-notes-list b-scrollable-main">
           <notes__list__item v-for="(note, index) of notes"
                              :sort="note.dateCreated"
                              :key="index"
