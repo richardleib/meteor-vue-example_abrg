@@ -40,6 +40,17 @@ Meteor.startup(() => {
     store,
     router,
     el: '#app',
-    render: h => h(app_layout)
+    render: h => h(app_layout),
+    mounted() {
+      window.addEventListener('resize', this.handle_window_resize)
+    },
+    beforeDestroy: function () {
+      window.removeEventListener('resize', this.handle_window_resize)
+    },
+    methods: {
+      handle_window_resize(event) {
+        this.$store.commit('window_width', event.currentTarget.innerWidth)
+      }
+    }
   })
 });

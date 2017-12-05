@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    window_width: window.innerWidth,
     user_token: localStorage.getItem('user_token'),
     user: null,
     user_partners: null
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    window_width(state, width) {
+      state.window_width = width
+    },
     set_user_token(state, param) {
       state.user_token = param
       localStorage.setItem('user_token', state.user_token)
