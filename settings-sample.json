@@ -1,0 +1,22 @@
+{
+  "public": {
+    "version": "local"
+  },
+  "private": {
+    "encryption_password": "xxx-yyy-zzz-9991",
+    "smtp": "smtp://xxx",
+    "email": {
+      "from": "Demo application <robot@example.com>"
+    },
+    "API": {
+      "user_create": "http://000.000.000.000/user/",
+      "user_sign_in": "http://000.000.000.000/auth/",
+      "user_load": "http://000.000.000.000/user/",
+      "user_edit": "http://000.000.000.000/user/",
+      "password_update": "http://000.000.000.000/user/changePassword/",
+      "password_reset": "http://000.000.000.000/user/resetPassword/",
+      "user_partners_load": "http://000.000.000.000/user/personalPartners/",
+      "user_note": "http://000.000.000.000/user/note/"
+    }
+  }
+}
