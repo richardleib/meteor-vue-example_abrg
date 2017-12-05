@@ -15,6 +15,9 @@
     components: {
       form_constructor
     },
+    created() {
+      this.$store.dispatch('load_user')
+    },
     computed: {
       schema() {
         return schema__password_update
