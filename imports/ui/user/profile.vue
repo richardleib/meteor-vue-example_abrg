@@ -7,19 +7,19 @@
                       form_title="Your profile"
                       :form_loaded_data="data"
                       :form_toggle_edit=true />
-    <form__loading v-else />
+    <loading_indicator v-else />
   </div>
 </template>
 
 <script>
   import form_constructor from '/imports/ui/form_constructor/form.vue'
-  import form__loading from '/imports/ui/form_constructor/form__loading.vue'
+  import loading_indicator from '/imports/ui/loading_indicator.vue'
   import { schema__user_update } from '/imports/api/user/schemas'
 
   export default {
     components: {
       form_constructor,
-      form__loading
+      loading_indicator
     },
     created() {
       this.$store.dispatch('load_user')

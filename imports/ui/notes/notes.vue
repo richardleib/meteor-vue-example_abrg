@@ -40,11 +40,7 @@
           </div>
         </b-col>
       </template>
-      <b-col v-else
-             sm="4"
-             offset-lg="2" lg="3">
-        Loading...
-      </b-col>
+      <loading_indicator v-else/>
     </b-row>
   </b-container>
 </template>
@@ -52,6 +48,7 @@
 <script>
   import { Meteor } from 'meteor/meteor'
   import object_value from '/imports/api/helpers/object_value'
+  import loading_indicator from '/imports/ui/loading_indicator.vue'
   import notes__list__item from './notes__list__item'
   import notes__create_note from './notes__create_note'
   import notes__update_note from './notes__update_note'
@@ -59,6 +56,7 @@
 
   export default {
     components: {
+      loading_indicator,
       notes__list__item,
       notes__create_note,
       notes__update_note,

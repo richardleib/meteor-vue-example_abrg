@@ -4,3 +4,4 @@ import 'bootstrap/scss/bootstrap.scss'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import './main.styl'
+import './loading.styl'
