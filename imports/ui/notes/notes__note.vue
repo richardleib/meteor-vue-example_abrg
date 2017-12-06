@@ -19,13 +19,14 @@
       </b-button-group>
     </div>
     <hr>
-    <div class="b-notes-note-body" v-html="note.body"></div>
+    <div class="b-notes-note-body" v-html="note_body"></div>
   </div>
 </template>
 
 <script>
   import moment from 'moment'
   import object_value from '/imports/api/helpers/object_value'
+  import strip_text from '/imports/api/helpers/strip_text'
 
   export default {
     props: ['note'],
@@ -35,6 +36,10 @@
     computed: {
       date() {
         return moment(this.note.dateCreate).calendar()
+      },
+      note_body() {
+        let text = object_value(this, 'note.body', '<em>[Empty]</em>')
+        return strip_text({text})
       }
     },
     methods: {

@@ -9,9 +9,8 @@
 
 <script>
   import $ from 'jquery'
-  import striptags from 'striptags'
-  import string_prune from 'underscore.string/prune'
   import object_value from '/imports/api/helpers/object_value'
+  import strip_text from '/imports/api/helpers/strip_text'
 
   export default {
     props: ['note'],
@@ -23,26 +22,8 @@
         return this.$router.currentRoute.params._id === this.note._id
       },
       note_body() {
-        function clear_snippet_text(text) {
-          if (!text) {
-            return;
-          }
-          text = striptags(text, ['p']);
-          return (text + '')
-          // Remove double line breaks
-            .replace(/\n{2,}/g, '\n')
-            // Remove all type of double spaces
-            .replace(/(\s)+/g, ' ') //.replace(/ +/g, ' ')
-            // Replace all type of new lines
-            .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + '<br>' + '$2')
-            // Remove codes
-            .replace(/(&nbsp;)/gm,"")
-        }
-
-        let note_body = object_value(this, 'note.body', '[Empty]')
-        let snippet_text = clear_snippet_text( note_body )
-
-        return string_prune( snippet_text, 140)
+        let text = object_value(this, 'note.body', '[Empty]')
+        return strip_text({text, limit: 140})
       }
     },
     methods: {
