@@ -10,6 +10,7 @@ import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
 import SimpleSchema from 'simpl-schema'
 import faker from 'faker'
+import * as options from "../../helpers/schema_defaults"
 
 Meteor.methods({
   /**
@@ -20,6 +21,15 @@ Meteor.methods({
    */
   async method__notes_load({search_query = {}, user_token}) {
     schema__notes_load.validate(search_query)
+
+    // Set default search query parameters
+    if (!search_query.field) {
+      search_query.field = 'dateCreate'
+    }
+
+    if (!search_query.sort) {
+      search_query.sort = 'desc'
+    }
 
     new SimpleSchema({
       user_token: {type: String}
@@ -37,7 +47,14 @@ Meteor.methods({
       const result = HTTP.get(url, { params: {token, ...search_query} })
       console.log('method__notes_load - result:', result)
 
-      return result.data
+      let data = result.data
+
+      // If `search_query.id` has been passed, API return an object. To solve rendering issues make it an array.
+      if (!Array.isArray(data)) {
+        data = [data]
+      }
+
+      return data
 
     } catch (error) {
 
