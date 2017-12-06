@@ -1,6 +1,6 @@
 <template>
   <form_constructor :schema="schema"
-                    form_class="b-form"
+                    form_class="b-form b-scrollable-main"
                     form_name="update_note"
                     form_title="Update note"
                     :form_loaded_data="filter_data"/>
