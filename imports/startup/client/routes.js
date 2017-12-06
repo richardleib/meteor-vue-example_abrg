@@ -14,7 +14,10 @@ partners = () => import('/imports/ui/partners/partners.vue')
 notes = () => import('/imports/ui/notes/notes.vue')
 another = () => import('/imports/ui/another.vue')
 
-let is_authorised = store.getters.is_authorised
+// Load user data to check if current user token is valid on server
+async function is_authorised() {
+  return await store.dispatch('load_user')
+}
 
 export default [
   {
@@ -35,12 +38,12 @@ export default [
   {
     path: '/profile',
     name: 'profile',
-    component: !is_authorised ? not_authorised : profile
+    component: !is_authorised() ? not_authorised : profile
   },
   {
     path: '/update-password',
     name: 'update_password',
-    component: !is_authorised ? not_authorised : update_password
+    component: !is_authorised() ? not_authorised : update_password
   },
   {
     path: '/reset-password',
@@ -50,27 +53,27 @@ export default [
   {
     path: '/partners',
     name: 'partners',
-    component: !is_authorised ? not_authorised : partners
+    component: !is_authorised() ? not_authorised : partners
   },
   {
     path: '/notes',
     name: 'notes',
-    component: !is_authorised ? not_authorised : notes,
+    component: !is_authorised() ? not_authorised : notes,
     children: [
       {
         path: 'create',
         name: 'create_note',
-        component: !is_authorised ? not_authorised : notes
+        component: !is_authorised() ? not_authorised : notes
       },
       {
         path: 'id/:_id',
         name: 'note',
-        component: !is_authorised ? not_authorised : notes
+        component: !is_authorised() ? not_authorised : notes
       },
       {
         path: 'id/:_id/edit',
         name: 'edit_note',
-        component: !is_authorised ? not_authorised : notes
+        component: !is_authorised() ? not_authorised : notes
       }
     ]
   },

@@ -81,7 +81,7 @@ export default new Vuex.Store({
         return false
       }
 
-      Meteor.callAsync('method__user_load', user_token)
+      return Meteor.callAsync('method__user_load', user_token)
         .then(result => {
           console.log('method__user_load - result:', result)
 
