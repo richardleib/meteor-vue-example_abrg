@@ -11,8 +11,13 @@
             <b-button size="sm"
                       variant="outline-primary"
                       @click="reload()">Reload</b-button>
-            <router-link class="btn btn-primary btn-sm align-self-start mb-3"
-                         :to="{ name: 'create_note' }">Add note</router-link>
+            <b-button-group class="align-self-start mb-3" size="sm">
+              <router-link class="btn btn-primary"
+                           :to="{ name: 'create_note' }">Add note</router-link>
+              <b-button type="button"
+                        variant="outline-primary"
+                        @click="generate()">&times;&nbsp;10</b-button>
+            </b-button-group>
           </div>
 
           <div v-if="notes"
@@ -82,6 +87,12 @@
     methods: {
       reload() {
         this.$store.dispatch('load_notes')
+      },
+      generate() {
+        this.$store.dispatch('generate_notes', {
+          vue: this,
+          amount: 10
+        })
       }
     }
   }

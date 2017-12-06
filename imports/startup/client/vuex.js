@@ -103,7 +103,7 @@ export default new Vuex.Store({
     load_notes({ commit, state }, search_query = {}) {
       const user_token = state.user_token
 
-      Meteor.callAsync('method__notes_load', { search_query, user_token })
+      return Meteor.callAsync('method__notes_load', { search_query, user_token })
         .then(result => {
           console.log('method__notes_load - result:', result)
 
@@ -119,6 +119,41 @@ export default new Vuex.Store({
 
       // console.log('fetch_data - response:', response)
       // return response
+    },
+    generate_notes({ commit, state }, {vue, amount}) {
+      let user_token = state.user_token
+
+      return Meteor.callAsync('method__notes_generate', amount, user_token)
+        .then(result => {
+          console.log('method__notes_generate - result:', result)
+
+          // Reload
+          this.dispatch('load_notes')
+
+          // Show notification
+          vue.$notify({
+            group: 'notifications',
+            title: 'Success',
+            text: `We generated ${amount} notes for you`
+          })
+
+          return result
+        })
+        .catch(error => {
+          console.error('method__notes_load - error:', error)
+
+          // Set error message
+          let message = object_value(error, 'error', 'Error')
+
+          // Show notification
+          vue.$notify({
+            group: 'notifications',
+            title: 'Error',
+            text: message
+          })
+
+          return error
+        })
     }
   }
 })

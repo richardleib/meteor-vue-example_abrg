@@ -8,7 +8,8 @@ import {
 } from '/imports/api/notes/schemas'
 import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
-import SimpleSchema from "simpl-schema"
+import SimpleSchema from 'simpl-schema'
+import faker from 'faker'
 
 Meteor.methods({
   /**
@@ -105,6 +106,27 @@ Meteor.methods({
       }
 
       return error
+    }
+  },
+  /**
+   * Generate notes
+   * @param amount
+   * @param user_token Stored on client encrypted token
+   * @returns {Promise<*>}
+   */
+  async method__notes_generate(amount = 10, user_token) {
+    new SimpleSchema({
+      amount: {type: Number},
+      user_token: {type: String}
+    }).validate({amount, user_token})
+
+    for (let i of Array(amount)) {
+      let data = {
+        title: faker.lorem.sentence(),
+        body: faker.lorem.paragraphs()
+      }
+
+      Meteor.callAsync('method__note_create', data, user_token)
     }
   },
   /**
