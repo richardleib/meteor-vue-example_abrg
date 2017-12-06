@@ -3,7 +3,7 @@ import { HTTP } from 'meteor/http'
 import { schema__user_partners } from '/imports/api/partners/schemas'
 import object_value from '/imports/api/helpers/object_value'
 import { encrypt, decrypt } from '/imports/api/helpers/encrypt'
-import SimpleSchema from "simpl-schema"
+import SimpleSchema from 'simpl-schema'
 
 Meteor.methods({
   /**
