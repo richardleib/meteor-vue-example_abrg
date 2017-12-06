@@ -128,6 +128,8 @@ Meteor.methods({
 
       Meteor.callAsync('method__note_create', data, user_token)
     }
+
+    return true
   },
   /**
    * Update a note

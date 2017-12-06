@@ -127,8 +127,10 @@ export default new Vuex.Store({
         .then(result => {
           console.log('method__notes_generate - result:', result)
 
-          // Reload
-          this.dispatch('load_notes')
+          // Let API work anf reload
+          setTimeout(() => {
+            this.dispatch('load_notes')
+          }, 1000)
 
           // Show notification
           vue.$notify({
