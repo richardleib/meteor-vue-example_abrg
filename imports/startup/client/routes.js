@@ -4,6 +4,7 @@ import store from '/imports/startup/client/vuex'
 import home from '/imports/ui/home.vue'
 import not_found from '/imports/ui/not_found.vue'
 import not_authorised from '/imports/ui/not_authorised.vue'
+
 // Lazy import
 register = () => import('/imports/ui/user/register.vue')
 sign_in = () => import('/imports/ui/user/sign_in.vue')
@@ -14,9 +15,12 @@ partners = () => import('/imports/ui/partners/partners.vue')
 notes = () => import('/imports/ui/notes/notes.vue')
 another = () => import('/imports/ui/another.vue')
 
-// Load user data to check if current user token is valid on server
-async function is_authorised() {
-  return await store.dispatch('load_user')
+function check_authentication(to, from, next) {
+  if (!store.getters.is_authorised) {
+    next({name: 'not_authorised'})
+  }
+  console.log('routes - load_user - auth')
+  next()
 }
 
 export default [
@@ -26,24 +30,31 @@ export default [
     component: home
   },
   {
+    path: '/not-authorised',
+    name: 'not_authorised',
+    component: not_authorised
+  },
+  {
     path: '/register',
     name: 'register',
     component: register
   },
   {
-    path: '/sign_in',
+    path: '/sign-in',
     name: 'sign_in',
     component: sign_in
   },
   {
     path: '/profile',
     name: 'profile',
-    component: !is_authorised() ? not_authorised : profile
+    beforeEnter: check_authentication,
+    component: profile
   },
   {
     path: '/update-password',
     name: 'update_password',
-    component: !is_authorised() ? not_authorised : update_password
+    beforeEnter: check_authentication,
+    component: update_password
   },
   {
     path: '/reset-password',
@@ -53,27 +64,32 @@ export default [
   {
     path: '/partners',
     name: 'partners',
-    component: !is_authorised() ? not_authorised : partners
+    beforeEnter: check_authentication,
+    component: partners
   },
   {
     path: '/notes',
     name: 'notes',
-    component: !is_authorised() ? not_authorised : notes,
+    beforeEnter: check_authentication,
+    component: notes,
     children: [
       {
         path: 'create',
         name: 'create_note',
-        component: !is_authorised() ? not_authorised : notes
+        beforeEnter: check_authentication,
+        component: notes
       },
       {
         path: 'id/:_id',
         name: 'note',
-        component: !is_authorised() ? not_authorised : notes
+        beforeEnter: check_authentication,
+        component: notes
       },
       {
         path: 'id/:_id/edit',
         name: 'edit_note',
-        component: !is_authorised() ? not_authorised : notes
+        beforeEnter: check_authentication,
+        component: notes
       }
     ]
   },
